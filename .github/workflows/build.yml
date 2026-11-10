@@ -9,6 +9,14 @@ jobs:
       - uses: actions/checkout@v4
       - name: Descomprimir proyecto
         run: if [ -f cookx-project.zip ]; then unzip -oq cookx-project.zip; fi
+      - name: Usar mi icono PNG
+        run: |
+          ICON=$(ls *.png 2>/dev/null | head -n 1)
+          if [ -n "$ICON" ]; then
+            mkdir -p app/src/main/res/mipmap-xxxhdpi
+            cp "$ICON" app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+            rm -f app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml app/src/main/res/drawable/ic_launcher_foreground.xml
+          fi
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
